@@ -174,32 +174,3 @@ console.log('✓ Set window.ADMIN_UID to admin value');
 // Navigate to admin panel
 window.location.href = '/admin';
 ```
-
-## Key Vulnerabilities
-
-### 1. Exposed Firebase Configuration
-**Location:** bundle.js line 25886-25892  
-**Impact:** Allows attackers to initialize their own Firebase client and interact with backend services
-
-### 2. Misconfigured Firestore Security Rules
-**Collections Affected:** `gnomes`, `tea`  
-**Impact:** Allows unauthenticated reads of sensitive user data including emails, UIDs, and gossip
-
-### 3. Publicly Accessible Firebase Storage
-**Path:** `gnome-documents/`  
-**Impact:** Driver's licenses containing passwords are publicly accessible without authentication
-
-### 4. Client-Side Authorization Bypass
-**Location:** bundle.js lines 26069-26071  
-**Code:**
-```javascript
-const _ = (e == null ? void 0 : e.uid) === f,
-    T = window.ADMIN_UID === f;
-l(_ || T)
-```
-**Impact:** Admin status determined by client-side `window.ADMIN_UID` variable that can be manipulated
-
-### 5. Hardcoded Admin UID
-**Location:** bundle.js line 26066  
-**Value:** `3loaihgxP0VwCTKmkHHFLe6FZ4m2`  
-**Impact:** Admin UID exposed in client-side code
